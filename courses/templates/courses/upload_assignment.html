@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Upload Assignment — StudentCourses{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card mt-3">
+      <div class="card-body">
+        <h4 class="card-title">Upload Assignment</h4>
+        <p class="text-muted small">Upload a PDF file for a course you are enrolled in.</p>
+
+        {% if no_courses %}
+          <div class="alert alert-warning">
+            You don't have any active course enrollments. <a href="{% url 'courses:list' %}">Browse courses</a> and enroll first.
+          </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="mb-3">
+            <label class="form-label">Course</label>
+            {{ form.course }}
+            {{ form.course.errors }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">PDF File</label>
+            {{ form.file }}
+            {{ form.file.errors }}
+            <div class="form-text">Only PDF files are accepted.</div>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit" {% if no_courses %}disabled{% endif %}>Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

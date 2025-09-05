@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}My Enrollments — StudentCourses{% endblock %}
+{% block content %}
+<div class="row mt-3">
+  <div class="col-md-10">
+    <h2>My Enrollments</h2>
+    <hr>
+
+    {% if enrollments %}
+      <div class="list-group">
+        {% for enroll in enrollments %}
+          <div class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="mb-1"><a href="{% url 'courses:detail' enroll.course.pk %}">{{ enroll.course.title }}</a></h5>
+              <p class="small text-muted mb-1">Enrolled on: {{ enroll.enrolled_on|date:"M d, Y H:i" }}</p>
+              <p class="small">Status: {% if enroll.active %}<span class="badge bg-success">Active</span>{% else %}<span class="badge bg-secondary">Dropped</span>{% endif %}</p>
+            </div>
+            <div class="text-end">
+              {% if enroll.grade %}
+                <div class="fw-bold">Grade: {{ enroll.grade }}</div>
+              {% else %}
+                <div class="text-muted small">No grade yet</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info">You are not enrolled in any courses yet.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

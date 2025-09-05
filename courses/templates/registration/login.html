@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Login — StudentCourses{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card card-subtle mt-4">
+      <div class="card-body">
+        <h4 class="card-title mb-3">Log in</h4>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            {{ form.password }}
+            {{ form.password.errors }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" name="role" required>
+              <option value="student">Student</option>
+              <option value="instructor">Instructor</option>
+            </select>
+            <div class="form-text">Pick Student or Instructor to match your account type.</div>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">Login</button>
+          </div>
+        </form>
+
+        <hr>
+        <div class="small">
+          <a href="{% url 'register' %}">Create an account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

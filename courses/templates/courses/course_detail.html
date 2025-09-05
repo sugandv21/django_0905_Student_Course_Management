@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }} — StudentCourses{% endblock %}
+{% block content %}
+<div class="row mt-3">
+  <div class="col-md-8">
+    <h2>{{ course.title }}</h2>
+    <p class="text-muted">Department: {{ course.get_department_display|default:course.department|default:"—" }}</p>
+    <p>
+      Instructor:
+      {% if course.instructor %}
+        {% if course.instructor.get_full_name %}{{ course.instructor.get_full_name }}{% else %}{{ course.instructor.username }}{% endif %}
+      {% else %}
+        TBA
+      {% endif %}
+    </p>
+    <hr>
+    <p>{{ course.description|linebreaks }}</p>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        {% if user.is_authenticated and not user.is_staff %}
+          <div class="mb-3">
+            <form method="post" action="{% url 'courses:enroll_toggle' course.pk %}">
+              {% csrf_token %}
+              {% if is_enrolled %}
+                <button type="submit" class="btn btn-danger w-100">Drop Course</button>
+              {% else %}
+                <button type="submit" class="btn btn-success w-100">Enroll</button>
+              {% endif %}
+            </form>
+          </div>
+
+          {% if is_enrolled %}
+            <div class="mb-2">
+              <a href="{% url 'courses:upload_assignment' %}" class="btn btn-outline-primary w-100">Upload Assignment</a>
+            </div>
+          {% else %}
+            <div class="mb-2">
+              <small class="text-muted">You must enroll to upload assignments.</small>
+            </div>
+          {% endif %}
+
+        {% elif user.is_authenticated and user.is_staff %}
+          <div class="mb-3">
+            <a class="btn btn-outline-secondary w-100" href="{% url 'courses:create' %}">Create Course</a>
+          </div>
+          <div class="mb-2">
+            <a class="btn btn-outline-primary w-100" href="{% url 'courses:submissions_list' %}?course={{ course.pk }}">View Submissions</a>
+          </div>
+
+        {% else %}
+          <a class="btn btn-primary w-100" href="{% url 'login' %}?next={% url 'courses:detail' course.pk %}">Login to Enroll</a>
+        {% endif %}
+
+        <hr>
+        <p class="mb-1"><strong>Course stats</strong></p>
+        <p class="small">Enrollments: {{ course.enrollments.count }}</p>
+        <p class="small">Submissions: {{ course.submissions.count }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

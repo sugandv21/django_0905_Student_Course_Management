@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Manual Enrollment — StudentCourses{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card card-subtle mt-3">
+      <div class="card-body">
+        <h4 class="card-title">Manual Enrollment</h4>
+        <p class="text-muted small">Use roll number to enroll a student into a course.</p>
+
+        <form method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="mb-3">
+            <label class="form-label">Student Roll Number</label>
+            {{ form.roll_number }}
+            {{ form.roll_number.errors }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Course</label>
+            {{ form.course }}
+            {{ form.course.errors }}
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-success" type="submit">Enroll</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

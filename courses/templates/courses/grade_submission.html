@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Grade Submission — StudentCourses{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 mt-3">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Grade Submission</h4>
+        <p class="small text-muted">Student: {{ submission.student }} &nbsp; • &nbsp; Course: {{ submission.course.title }}</p>
+        <p>Submitted at: {{ submission.submitted_at|date:"M d, Y H:i" }}</p>
+
+        <p><strong>File</strong>: <a href="{{ submission.file.url }}" target="_blank">Download</a></p>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Grade</label>
+            <input name="grade" class="form-control" value="{{ submission.grade }}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Feedback</label>
+            <textarea name="feedback" class="form-control" rows="5">{{ submission.feedback }}</textarea>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">Save Grade & Notify</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Create Course — StudentCourses{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 mt-3">
+    <div class="card card-subtle">
+      <div class="card-body">
+        <h4 class="card-title">Create Course</h4>
+        <p class="text-muted small">Only instructors can create courses. You will be set as the instructor.</p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          {# non-field errors #}
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              {% for err in form.non_field_errors %}
+                <div>{{ err }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {# Title #}
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+              <div class="text-danger small mt-1">
+                {% for e in form.title.errors %}{{ e }}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          {# Department #}
+          <div class="mb-3">
+            <label class="form-label">Department</label>
+            {{ form.department }}
+            {% if form.department.errors %}
+              <div class="text-danger small mt-1">
+                {% for e in form.department.errors %}{{ e }}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          {# Description #}
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+              <div class="text-danger small mt-1">
+                {% for e in form.description.errors %}{{ e }}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-success" type="submit">Create Course</button>
+            <a class="btn btn-outline-secondary" href="{% url 'courses:list' %}">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
