@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-vb@0nu6g0=p4v7^p1jvbj6)4$j5$t^py33xzb$=*^(o%v28fm2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -148,3 +148,4 @@ LOGIN_URL = os.getenv('LOGIN_URL', '/accounts/login/')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
